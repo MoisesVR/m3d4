@@ -1,0 +1,103 @@
+const propiedadesJSON = [
+    {
+      name: "Casa de campo",
+      description: "Un lugar ideal para descansar de la ciudad",
+      src:
+        "https://www.construyehogar.com/wp-content/uploads/2020/02/Dise%C3%B1o-casa-en-ladera.jpg",
+      rooms: 2,
+      m: 170
+    },
+    {
+      name: "Casa de playa",
+      description: "Despierta tus días oyendo el oceano",
+      src:
+        "https://media.chvnoticias.cl/2018/12/casas-en-la-playa-en-yucatan-2712.jpg",
+      rooms: 2,
+      m: 130
+    },
+    {
+      name: "Casa en el centro",
+      description: "Ten cerca de ti todo lo que necesitas",
+      src:
+        "https://fotos.perfil.com/2018/09/21/trim/950/534/nueva-york-09212018-366965.jpg",
+      rooms: 1,
+      m: 80
+    },
+    {
+      name: "Casa rodante",
+      description: "Conviertete en un nómada del mundo sin salir de tu casa",
+      src:
+        "https://cdn.bioguia.com/embed/3d0fb0142790e6b90664042cbafcb1581427139/furgoneta.jpg",
+      rooms: 1,
+      m: 6
+    },
+    {
+      name: "Departamento",
+      description: "Desde las alturas todo se ve mejor",
+      src:
+        "https://www.adondevivir.com/noticias/wp-content/uploads/2016/08/depto-1024x546.jpg",
+      rooms: 3,
+      m: 200
+    },
+    {
+      name: "Mansión",
+      description: "Vive una vida lujosa en la mansión de tus sueños ",
+      src:
+        "https://leadingestates.com/wp-content/uploads/2015/10/54-Holmby-Hills-03.jpg",
+      rooms: 5,
+      m: 500
+    }
+  ];
+  const createSection = (name, description, src, rooms, m) => {
+    return `
+      <div class="propiedad">
+      <div class="img" style="background-image: url(${src})"></div>
+      <section id="section">
+          <h5>${name}</h5>
+          <div class="d-flex justify-content-between">
+              <p>Cuartos: ${rooms}</p>
+              <p>Metros: ${m}</p>
+          </div>
+          <p class="my-3">${description}</p>
+          <button class="btn btn-info ">Ver más</button>
+      </section>
+      </div>
+      `;
+  }
+  function total() {
+    t = propiedadesJSON.length;
+    document.getElementById("total").innerHTML = t;
+  }
+  function imprimir() {
+    for (let item of propiedadesJSON) {
+      total();
+      document.getElementById("propiedades").innerHTML += createSection(item.name, item.description, item.src, item.rooms, item.m);
+    }
+  }
+  
+  function obtenerDatos(cuartos, metrosMin, metrosMax) {
+    const propiedades = propiedadesJSON.filter(
+      ({ rooms, m }) => rooms >= cuartos && m >= metrosMin && m <= metrosMax
+    );
+    for (x in propiedades) {
+      document.getElementById("propiedades").innerHTML += createSection(propiedades[x].name, propiedades[x].description, propiedades[x].src, propiedades[x].rooms, propiedades[x].m);
+    }
+    let t = propiedades.length;
+    document.getElementById("total").innerHTML = t;
+  }
+  function validacion(cuartos, metrosMin, metrosMax) {
+    if (cuartos == "" || metrosMin == "" || metrosMax == "") {
+      alert("Faltan datos por llenar")
+      imprimir();
+    } else {
+      obtenerDatos(cuartos, metrosMin, metrosMax);
+    }
+  }
+  imprimir();
+  document.getElementById("search").onclick = function () {
+    document.getElementById("propiedades").innerHTML = "";
+    let cuartos = document.getElementById("cuartos").value;
+    let metrosMin = document.getElementById("metrosMin").value;
+    let metrosMax = document.getElementById("metrosMax").value;
+    validacion(cuartos, metrosMin, metrosMax);
+  }
